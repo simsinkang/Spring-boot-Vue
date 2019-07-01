@@ -72,9 +72,9 @@ export default {
     },
 
     findAll() {
-      axios.get(`${this.context}/1`)
+      axios.get(`${this.context}`)
       .then(res=>{
-        alert(`SUCCESS : ${res.data}`)
+        alert(`findAll() : ${res.data[0].customerName}`)
       })
       .catch(e=>{
         alert('ERROR')
