@@ -1,5 +1,6 @@
 package com.bit.web.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +32,12 @@ public class CustomerController {
     @Autowired CustomerDTO customer;
     @Autowired ModelMapper modelMapper;
     
+    @Bean
+    public ModelMapper modelMapper(){
+        ModelMapper modelMapper = new ModelMapper ();
+        return modelMapper;
+    }
+
     @GetMapping("/count")
     public long count(){
         System.out.println("=====count() 진입=====");
@@ -66,9 +73,13 @@ public class CustomerController {
 
     @GetMapping("")
     public Iterable<CustomerDTO> findAll(){
-        Iterable<Customer> entity = customerService.findAll();
-        //List<CustomerDTO> list = entities;
-        return null;
+        Iterable<Customer> entities = customerService.findAll();
+        List<CustomerDTO> list = new ArrayList<>();
+        for(Customer s: entities){
+            CustomerDTO cust = modelMapper.map(s, CustomerDTO.class);
+            list.add(cust);
+        }
+        return list;
     }
 
     /* @GetMapping("/{id}")
