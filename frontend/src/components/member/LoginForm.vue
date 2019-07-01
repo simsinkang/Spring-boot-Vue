@@ -13,11 +13,12 @@
     <div class="checkbox">
       <label><input type="checkbox"> Remember me</label>
     </div>
-    <button class="btn btn-defult" @click="get">조회</button>
-    <button class="btn btn-defult" @click="post">입력</button>
-    <button class="btn btn-defult" @click="put">수정</button>
-    <button class="btn btn-defult" @click="del">삭제</button>
-    <input type="submmit" v-model="submmit">
+    <button class="btn btn-defult" @click="count()">count</button>
+    <button class="btn btn-defult" @click="deleteById()">deleteById</button>
+    <button class="btn btn-defult" @click="existsById()">existsById</button>
+    <button class="btn btn-defult" @click="findAll()">findAll</button>
+    <button class="btn btn-defult" @click="findById()">findById</button>
+    <button class="btn btn-defult" @click="save()">save</button>
   </form>
   <Footer></Footer>
 </div>
@@ -31,53 +32,75 @@ import axios from 'axios'
 export default {
   data(){
     return{
-      context: 'http://localhost:9000',
-      id :'',
-      passeword : ''
+      context: 'http://localhost:9000/customers'
     }
   },
-    components: {
-      Nav, Footer
+
+  components: {
+    Nav, Footer
+    },
+  
+  methods: {
+    count() {
+      axios.get(`${this.context}/count`)
+      .then(res=>{
+        alert(`count() SUCCESS : ${res.data}`)
+      })
+      .catch(e=>{
+        alert('ERROR')
+      })
     },
 
-    methods: {
-        get(){
-          axios.get(`${this.context}/customers/count`)
-          .then(res=>{
-            alert(`SUCCESS : ${res.data}`)
-          })
-          .catch(e=>{
-            alert('ERROR')
-          })
-        },
+    deleteById() {
+      axios.delete(`${this.context}/1`)
+      .then(res=>{
+        alert(`SUCCESS : ${res.data}`)
+      })
+      .catch(e=>{
+        alert('ERROR')
+      })
+    },
 
-        submit(){
-          var data = {
-            id:this.id,
-            passeord:this.passeword
-          }
-          axios.post(this.localhost + 'customers/join', data)
-          .then(d=>{
-            alert('SUCCESS' + d.data)
-          }).catch(d=>{
-            alert('ERROR');
-          })
-        },
+    existsById() {
+      axios.get(`${this.context}/exists/1`)
+      .then(res=>{
+        alert(`existsById() SUCCESS : ${res.data}`)
+      })
+      .catch(e=>{
+        alert('ERROR')
+      })
+    },
 
-        put(){
-          axios.put('/customers/id')
-          .then(d=>{
-            alert(`PUT 연동 성공 : ${d.data.result}`)
-          })
-        },
+    findAll() {
+      axios.get(`${this.context}/1`)
+      .then(res=>{
+        alert(`SUCCESS : ${res.data}`)
+      })
+      .catch(e=>{
+        alert('ERROR')
+      })
+    },
 
-        del(){
-          axios.delete('/customers/id')
-          .then(d=>{
-            alert(`DELETE 연동 성공 : ${d.data.result}`)
-          })
-        }
+    findById() {
+      axios.get(`${this.context}/1`)
+      .then(res=>{
+        alert(`findById()SUCCESS : ${res.data.customerName}`)
+      })
+      .catch(e=>{
+        alert('ERROR')
+      })
+    },
+
+    save() {
+      axios.post(`${this.context}`)
+      .then(res=>{
+        alert(`SUCCESS : ${res.data}`)
+      })
+      .catch(e=>{
+        alert('ERROR')
+      })
     }
+  }
 }
 </script>
 
