@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
+
 import com.bit.web.common.util.Printer;
 import com.bit.web.domain.CustomerDTO;
 import com.bit.web.entites.Customer;
@@ -28,12 +30,7 @@ public class CustomerController {
     @Autowired CustomerService customerService;
     @Autowired CustomerDTO customer;
     @Autowired ModelMapper modelMapper;
-
-    @Bean
-    public ModelMapper modelMapper(){
-        return new ModelMapper();
-    }
-
+    
     @GetMapping("/count")
     public long count(){
         System.out.println("=====count() 진입=====");
@@ -83,8 +80,9 @@ public class CustomerController {
     @GetMapping("/{id}")
     public CustomerDTO findById(@PathVariable String id){
         System.out.println("findById로 들어온 ID : "+id);
-        //Optional<Customer> entity = ;
-        CustomerDTO c = modelMapper.map(customerService.findById(Long.parseLong(id)), CustomerDTO.class);
+        Customer entity = customerService.findById(Long.parseLong(id)).orElseThrow(EntityNotFoundException::new);
+        System.out.println(">>>>"+entity.toString());
+        CustomerDTO c = modelMapper.map(entity, CustomerDTO.class);
         System.out.println("조회결과 : "+c.toString());
         return c;
     }
