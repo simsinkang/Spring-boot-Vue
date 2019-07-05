@@ -2,6 +2,7 @@ package com.bit.web.service;
 
 import java.util.Optional;
 
+import com.bit.web.domain.CustomerDTO;
 import com.bit.web.entites.Customer;
 import com.bit.web.repositories.CustomerRepository;
 import com.bit.web.service.CustomerService;
@@ -46,5 +47,9 @@ public class CustomerService{
     }
     public Iterable<Customer> saveAll(Iterable<Customer> entities){
         return customerRepository.saveAll(entities);
+    }
+
+    public Customer login(String id, String pw) {
+        return customerRepository.findByCustomerIdAndPassword(id, pw);
     }
 }

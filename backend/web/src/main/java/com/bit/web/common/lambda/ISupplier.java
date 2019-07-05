@@ -7,6 +7,6 @@ import java.util.function.Supplier;
  */
 @FunctionalInterface
 public interface ISupplier {
-    public abstract Object get(Object o);
+    public abstract Object get();
     
 }

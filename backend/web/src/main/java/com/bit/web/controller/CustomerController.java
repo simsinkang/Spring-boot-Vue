@@ -3,13 +3,13 @@ package com.bit.web.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
-
 import javax.persistence.EntityNotFoundException;
 
+import com.bit.web.common.lambda.ISupplier;
 import com.bit.web.common.util.Printer;
 import com.bit.web.domain.CustomerDTO;
 import com.bit.web.entites.Customer;
+import com.bit.web.repositories.CustomerRepository;
 import com.bit.web.service.CustomerService;
 
 import org.modelmapper.ModelMapper;
@@ -31,11 +31,11 @@ public class CustomerController {
     @Autowired CustomerService customerService;
     @Autowired CustomerDTO customer;
     @Autowired ModelMapper modelMapper;
+    @Autowired CustomerRepository repo;
     
     @Bean
     public ModelMapper modelMapper(){
-        ModelMapper modelMapper = new ModelMapper ();
-        return modelMapper;
+        return new ModelMapper();
     }
 
     @GetMapping("/count")
@@ -60,8 +60,21 @@ public class CustomerController {
     } */
 
     @DeleteMapping("/{id}")
-    public void deleteById(Long id){
-        customerService.deleteById(id);
+    public HashMap<String, Object> deleteById(@RequestBody CustomerDTO dto){
+        HashMap<String, Object> map = new HashMap<>();
+        Customer entity = new Customer();
+        entity.setAddress(dto.getAddress());
+        entity.setCity(dto.getCity());
+        entity.setCustomerId(dto.getCustomerId());
+        entity.setCustomerName(dto.getCustomerName());
+        entity.setPassword(dto.getPassword());
+        entity.setPhone(dto.getPhone());
+        entity.setPhoto(dto.getPhoto());
+        entity.setPostalcode(dto.getPostalcode());
+        entity.setSsn(dto.getSsn());
+        customerService.delete(entity);
+        map.put("result", "탈퇴 성공");
+        return map;  
     }
 
     @GetMapping("/exists/{id}")
@@ -78,7 +91,7 @@ public class CustomerController {
         for(Customer s: entities){
             CustomerDTO cust = modelMapper.map(s, CustomerDTO.class);
             list.add(cust);
-        }
+        } 
         return list;
     }
 
@@ -99,9 +112,23 @@ public class CustomerController {
     }
 
     @PostMapping("")
-    public CustomerDTO save(@RequestBody CustomerDTO dto){
-        Customer entity = customerService.save(null);
-        return null;
+    public HashMap<String, String> save(@RequestBody CustomerDTO dto){
+        System.out.println("회원가입"+dto.toString());
+        HashMap<String, String> map = new HashMap<>();
+        Customer entity = new Customer();
+        entity.setAddress(dto.getAddress());
+        entity.setCity(dto.getCity());
+        entity.setCustomerId(dto.getCustomerId());
+        entity.setCustomerName(dto.getCustomerName());
+        entity.setPassword(dto.getPassword());
+        entity.setPhone(dto.getPhone());
+        entity.setPhoto(dto.getPhoto());
+        entity.setPostalcode(dto.getPostalcode());
+        entity.setSsn(dto.getSsn());
+        System.out.println("엔티티로 바뀐 정보 : " + entity.toString());
+        customerService.save(entity);
+        map.put("result", "SUCCESS");
+        return map;
     }
 
     /* @PostMapping("")
@@ -109,4 +136,15 @@ public class CustomerController {
         Iterable<Customer> entity = customerService.saveAll(null);
         return null;
     } */
+    
+    @GetMapping("/login")
+    public CustomerDTO login(@RequestBody CustomerDTO dto){
+        System.out.println("로그인 진입");
+        System.out.println("ID : "+dto.getCustomerId());
+        System.out.println("PW : "+dto.getPassword());
+        ISupplier fx = (()->{
+        return repo.findByCustomerIdAndPassword(dto.getCustomerId(), dto.getPassword());
+        });
+        return (CustomerDTO)fx.get();
+    }
 }

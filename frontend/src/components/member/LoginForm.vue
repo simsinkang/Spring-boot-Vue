@@ -3,22 +3,23 @@
   <Nav></Nav>
   <form>
     <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter email">
+      <label for="email">ID:</label>
+      <input type="email" class="form-control" v-model="customerId" id="email" placeholder="Enter ID">
     </div>
     <div class="form-group">
       <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+      <input type="password" class="form-control" v-model="password" id="pwd" placeholder="Enter password">
     </div>
     <div class="checkbox">
       <label><input type="checkbox"> Remember me</label>
     </div>
-    <button class="btn btn-defult" @click="count()">count</button>
-    <button class="btn btn-defult" @click="deleteById()">deleteById</button>
-    <button class="btn btn-defult" @click="existsById()">existsById</button>
-    <button class="btn btn-defult" @click="findAll()">findAll</button>
-    <button class="btn btn-defult" @click="findById()">findById</button>
-    <button class="btn btn-defult" @click="save()">save</button>
+    <button class="btn btn-defult" @click="count">count</button>
+    <button class="btn btn-defult" @click="deleteById">deleteById</button>
+    <button class="btn btn-defult" @click="existsById">existsById</button>
+    <button class="btn btn-defult" @click="findAll">findAll</button>
+    <button class="btn btn-defult" @click="findById">findById</button>
+    <button class="btn btn-defult" @click="save">save</button>
+    <button class="btn btn-defult" @click="login">login</button>
   </form>
   <Footer></Footer>
 </div>
@@ -32,7 +33,16 @@ import axios from 'axios'
 export default {
   data(){
     return{
-      context: 'http://localhost:9000/customers'
+      context: 'http://localhost:9000/customers',
+      customerId: 'hong',
+      customerName: '홍길동',
+      password : '1234', 
+      ssn : '123456-2345678', 
+      phone : '010-4444-4444', 
+      city : '서울', 
+      address : '창동', 
+      postalcode : '567-89', 
+      photo : 'hong.jpg'
     }
   },
 
@@ -54,7 +64,7 @@ export default {
     deleteById() {
       axios.delete(`${this.context}/1`)
       .then(res=>{
-        alert(`SUCCESS : ${res.data}`)
+        alert(`delete() SUCCESS : ${res.data}`)
       })
       .catch(e=>{
         alert('ERROR')
@@ -92,9 +102,41 @@ export default {
     },
 
     save() {
-      axios.post(`${this.context}`)
+      let data = {
+        id : 40,
+        customerId : this.customerId,
+        customerName : this.customerName,
+        password : this.password, 
+        ssn : this.ssn, 
+        phone : this.phone, 
+        city : this.city, 
+        address : this.address, 
+        postalcode : this.postalcode, 
+        photo : this.photo
+      }
+      let headers = {
+        'Content-Type' : 'application/json',
+        'Authorization' : 'JWT fefege..'
+      }
+      axios.post(`${this.context}`, JSON.stringify(data), {headers: headers})
       .then(res=>{
         alert(`SUCCESS : ${res.data}`)
+      })
+      .catch(e=>{
+        alert('ERROR')
+      })
+    },
+
+    login(){
+      let data = {
+        customerId : this.customerId,
+        password : this.password
+      }
+      alert(this.customerId)
+      alert(this.password)
+      axios.get(`${this.context}/login`, `${this.customerId} ${this.password}`)
+      .then(res=>{
+        alert(`로그인 성공 : ${res.data.customerName}`)
       })
       .catch(e=>{
         alert('ERROR')
