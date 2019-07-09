@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
 import {Table, Figure} from 'react-bootstrap'
-import logo from '../assets/images/logo.svg'
+import logo from '../../assets/images/logo.svg'
 
 class MyPage extends Component{
     render(){
         return (
             <div>
+                <p><strong>마이페이지</strong></p>
                 <Figure>
                     <Figure.Image
                         width={171}

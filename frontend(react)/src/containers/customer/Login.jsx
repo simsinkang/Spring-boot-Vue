@@ -14,6 +14,7 @@ class Login extends Component{
             <div>
                 <form onSubmit="{this.handleSunbmit}">
                     <Form>
+                    <Form.Label><strong>로그인</strong></Form.Label>
                         <Form.Group controlId="customerId">
                             <Form.Label>CUSTOMER ID</Form.Label>
                             <Form.Control type="email" placeholder="Customer ID" />
