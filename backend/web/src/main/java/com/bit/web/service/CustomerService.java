@@ -49,7 +49,5 @@ public class CustomerService{
         return customerRepository.saveAll(entities);
     }
 
-    public Customer login(String id, String pw) {
-        return customerRepository.findByCustomerIdAndPassword(id, pw);
-    }
+    
 }
