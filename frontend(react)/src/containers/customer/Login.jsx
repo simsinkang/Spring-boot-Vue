@@ -3,6 +3,9 @@ import {Form, Button} from 'react-bootstrap'
 import axios from 'axios'
 
 class Login extends Component{
+    constructor(props){
+        super(props)
+    }
         state = {
             customerId:'',
             password:''
@@ -11,7 +14,7 @@ class Login extends Component{
     render(){
         return (
             <div>
-                <form onSubmit="{this.handleSunbmit}">
+                <form onSubmit="{this.login}">
                     <Form>
                     <Form.Label><strong>로그인</strong></Form.Label>
                         <Form.Group controlId="customerId">
@@ -23,6 +26,7 @@ class Login extends Component{
                             <input type="text" name ="password" onChange={this.pwChange}/>
                         </Form.Group>
                     </Form>
+                    <input type="submit" value='test'/>
                     <Button variant="success" onClick={this.login}>전송</Button>
                     <Button variant="warning">취소</Button>
                 </form>
@@ -40,6 +44,10 @@ class Login extends Component{
 
     login =(e)=>{
         e.preventDefault()
+        this.setState({submitted : true})
+        const {customerId, password} = this.state
+        console.log(`customerId is ${customerId}`)
+        console.log(`password is ${password}`)
 
         const data={
             customerId : this.state.customerId,
