@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:mariadb://bitcamp190705.cjs9ruc4zgrr.ap-northeast-2.rds.amazonaws.com
+        url: jdbc:mariadb://bitcamp190705.cjs9ruc4zgrr.ap-northeast-2.rds.amazonaws.com:3306/bitcamp190705
         driverClassName: org.mariadb.jdbc.Driver
         username: bitcamp190705
         password: bitcamp190705
