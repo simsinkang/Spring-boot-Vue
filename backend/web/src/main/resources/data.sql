@@ -11,4 +11,10 @@ address VARCHAR(110) NOT NULL,
 postalcode VARCHAR(50) NOT NULL,
 photo VARCHAR(50) DEFAULT 'defaut_photo'
 )DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS customers;
+CREATE TABLE member_roles (
+fno INT AUTO_INCREMENT PRIMARY KEY,
+role_name VARCHAR
+)DEFAULT CHARSET=utf8;
 commit;

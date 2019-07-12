@@ -1,13 +1,17 @@
 spring:
     datasource:
-        url: jdbc:h2:mem:testdb;
-        driverClassName: org.h2.Driver
-        username: sa
-        password:
+        url: jdbc:mariadb://bitcamp190705.cjs9ruc4zgrr.ap-northeast-2.rds.amazonaws.com
+        driverClassName: org.mariadb.jdbc.Driver
+        username: bitcamp190705
+        password: bitcamp190705
     jpa:
-        database-platform: org.hibernate.dialect.H2Dialect
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
         hibernate:
-            ddl-auto: update   
+            ddl-auto: create   
 
 server:
     port: 9000
+
+logging :
+    level :
+        org.springframework.security : debug
